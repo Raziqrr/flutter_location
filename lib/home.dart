@@ -22,7 +22,6 @@ class _HomePageState extends State<HomePage> {
   Marker? toDelete;
 
   void createMarker(LatLng position){
-    int index = markers.length-1;
     Marker marker = Marker(
         point: position,
         child: GestureDetector(
@@ -35,7 +34,6 @@ class _HomePageState extends State<HomePage> {
           },
           child: IconButton(
               onPressed: (){
-                int curIndex = markers.length-1;
                 showDialog(context: context, builder: (BuildContext context) {
                   print("Entered");
                   return AlertDialog(
@@ -63,13 +61,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   void getLocation()async{
-    LocationPermission permission = await Geolocator.requestPermission();
+    await Geolocator.requestPermission();
 
     final LocationSettings locationSettings = LocationSettings(
       accuracy: LocationAccuracy.high,
       distanceFilter: 100,
     );
-    StreamSubscription<Position> positionStream = Geolocator.getPositionStream(
+    Geolocator.getPositionStream(
         locationSettings: locationSettings).listen(
             (Position? position) {
               setState(() {
@@ -101,14 +99,14 @@ class _HomePageState extends State<HomePage> {
               setState(() {
                 zoom = zoom - 0.2;
               });
-              mapController?.move(mapController.camera.center,
+              mapController.move(mapController.camera.center,
                   zoom);
             }, icon: Icon(CupertinoIcons.minus_circle_fill)),
             IconButton(onPressed: (){
               setState(() {
                 zoom = zoom + 0.2;
               });
-              mapController?.move(mapController.camera.center,
+              mapController.move(mapController.camera.center,
                   zoom);
             }, icon: Icon(CupertinoIcons.add_circled_solid))
           ],
